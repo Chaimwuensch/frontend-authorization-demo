@@ -3,7 +3,8 @@ import { useState } from "react";
 import Logo from "./Logo";
 import "./styles/Login.css";
 
-const Login = () => {
+// Destructure the prop.
+const Login = ({ handleLogin }) => {
   const [data, setData] = useState({
     username: "",
     password: "",
@@ -17,6 +18,13 @@ const Login = () => {
     }));
   };
 
+  // handleSubmit prevents the default browser behavior and calls
+  // the login handler.
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleLogin(data);
+  };
+
   return (
     <div className="login">
       <Logo title={"CryptoDucks"} />
@@ -24,38 +32,10 @@ const Login = () => {
         This app contains highly sensitive information. Please sign in or
         register to access CryptoDucks.
       </p>
-      <form className="login__form">
-        <label htmlFor="username">Login:</label>
-        <input
-          id="username"
-          required
-          name="username"
-          type="text"
-          value={data.username}
-          onChange={handleChange}
-        />
-        <label htmlFor="password">Password:</label>
-        <input
-          id="password"
-          required
-          name="password"
-          type="password"
-          value={data.password}
-          onChange={handleChange}
-        />
-        <div className="login__button-container">
-          <button type="submit" className="login__link">
-            Log in
-          </button>
-        </div>
+      {/* Add the submission handler as the form's onSubmit attribute. */} 
+      <form className="login__form" onSubmit={handleSubmit}>
+        {/* ... */}
       </form>
-
-      <div className="login__signup">
-        <p>Not a member yet?</p>
-        <Link to="/register" className="signup__link">
-          Sign up here
-        </Link>
-      </div>
     </div>
   );
 };
